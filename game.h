@@ -4,8 +4,9 @@ using namespace std;
 typedef vector<vector<int>> vvi;
 
 class MapStatus{
-public:
     vvi map;
+    inline bool getBit(int,int);
+public:
     // 1~8表示数字
     // 9表示空白
     // 10表示炸弹
@@ -14,7 +15,10 @@ public:
     // 13表示未显示标记问号
     bool status;
     int mineNumber;
+    
     MapStatus(int,int);
+    MapStatus(vvi);
+    vvi getMapStatus();
 };
 
 class Game{
@@ -26,9 +30,12 @@ private:
     // 第6位表示是否空白
     // 第7位表示是否标记旗帜
     // 第8位表示是否标记？
-    inline bool getbit(int,int);
+    inline bool getBit(int,int);
+    inline void setBit(int&,int,int);
+    inline bool isMine(int,int);
+    int getMineNumber();
 public:
-    void init(int,int,int);
+    void init(int,int,int,int);
     void reset();
     MapStatus leftClick(int,int);
     MapStatus rightClick(int,int);
