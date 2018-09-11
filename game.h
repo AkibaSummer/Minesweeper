@@ -24,14 +24,15 @@ public:
 class Game{
 private:
     vvi maps;  
-    // 负数表示隐藏，正数表示显示
     // 1~8表示数字
     // 第5位表示是否是地雷
     // 第6位表示是否空白
     // 第7位表示是否标记旗帜
     // 第8位表示是否标记？
+    // 第9位表示是否隐藏
     inline bool getBit(int,int);
     inline void setBit(int&,int,int);
+    inline int getNum(int);
     inline bool isMine(int,int);
 public:
     void init(int,int,int,int);

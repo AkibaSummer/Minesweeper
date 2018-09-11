@@ -54,6 +54,11 @@ inline void Game::setBit(int &num,int pos,int bit){ // 将某一位设置成指�
     }
 }
 
+
+inline int Game::getNum(int num){
+    return num&15;
+}
+
 inline bool Game::isMine(int i,int j){ // 判断某一位置是否是雷（加上了边界判断）
     return i<0||i>(int)maps.size()||j<0||j>(int)maps.front().size()?0:
     getBit(maps[i][j],5);
