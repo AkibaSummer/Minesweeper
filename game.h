@@ -13,11 +13,11 @@ public:
     // 11表示未显示空白
     // 12表示未显示标记旗帜
     // 13表示未显示标记问号
-    bool status;
+    int status; // 0表示继续进行，1表示胜利，-1表示失败
     int mineNumber;
     
     MapStatus(int,int);
-    MapStatus(vvi);
+    MapStatus(vvi,int);
     vvi getMapStatus();
 };
 
@@ -33,7 +33,6 @@ private:
     inline bool getBit(int,int);
     inline void setBit(int&,int,int);
     inline bool isMine(int,int);
-    int getMineNumber();
 public:
     void init(int,int,int,int);
     void reset();

@@ -12,12 +12,19 @@ MapStatus::MapStatus(int n=0,int m=0){
         i.resize(m,0);
 };
 
-MapStatus::MapStatus(vvi _map){
-    int n(_map.size()),m(_map.front().size());
+MapStatus::MapStatus(vvi _map,int _status){
+    status=_status;
+    
+    int n(_map.size()),m(_map.front().size()); // 地图初始化
     map.resize(n);
     for (auto &i:map)
-        i.resize(m,0);
+        i.resize(m,0); // 重置为0
         
+    mineNumber=0;//取得剩余雷的数量
+    for (auto &i:_map)
+    for (auto &j:i)
+    if (getBit(j,5)&&getBit(j,9)) mineNumber++;
+    
     // 1~8表示数字
     // 9表示空白
     // 10表示炸弹
@@ -32,7 +39,7 @@ MapStatus::MapStatus(vvi _map){
     // 第8位表示是否标记？
     // 第9位表示是否隐藏
     
-    for (int i=0;i<n;i++){
+    for (int i=0;i<n;i++){ // 地图转换
         for (int j=0;j<m;j++){
             if (_map[i][j]<9) map[i][j]=_map[i][j];
             else if (getBit(_map[i][j],7)) map[i][j]=12;
@@ -64,14 +71,6 @@ inline void Game::setBit(int &num,int pos,int bit){ // 将某一位设置成指�
 inline bool Game::isMine(int i,int j){ // 判断某一位置是否是雷（加上了边界判断）
     return i<0||i>(int)maps.size()||j<0||j>(int)maps.front().size()?0:
     getBit(maps[i][j],5);
-}
-
-int Game::getMineNumber(){ // 判断剩余雷的数量
-    int ret(0);
-    for (auto &i:maps)
-    for (auto &j:i)
-    if (getBit(j,5)&&getBit(j,9)) ret++;
-    return ret;
 }
 
 void Game::init(int n,int m,int num,int seed=time(0)){
@@ -120,9 +119,21 @@ MapStatus Game::leftClick(int,int){
     return MapStatus();
 }
 
-MapStatus Game::rightClick(int,int){
-    
-    return MapStatus();
+MapStatus Game::rightClick(int x,int y){
+    if (getBit(maps[x][y],9)){ 
+        return MapStatus(maps,0);
+    }
+    else if (!(getBit(maps[x][y],7)||getBit(maps[x][y],8))){
+        setBit(maps[x][y],7,1);
+    }
+    else if (getBit(maps[x][y],7)){
+        setBit(maps[x][y],7,0);
+        setBit(maps[x][y],8,1);
+    }
+    else {
+        setBit(maps[x][y],8,0);
+    }
+    return MapStatus(maps,0);
 }
 
 MapStatus Game::doubleClick(int,int){
