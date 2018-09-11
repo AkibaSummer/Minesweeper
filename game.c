@@ -25,20 +25,6 @@ MapStatus::MapStatus(vvi _map,int _status){
     for (auto &j:i)
     if (getBit(j,5)&&getBit(j,9)) mineNumber++;
     
-    // 1~8表示数字
-    // 9表示空白
-    // 10表示炸弹
-    // 11表示未显示空白
-    // 12表示未显示标记旗帜
-    // 13表示未显示标记问号
-    
-    // 1~8表示数字
-    // 第5位表示是否是地雷
-    // 第6位表示是否空白
-    // 第7位表示是否标记旗帜
-    // 第8位表示是否标记？
-    // 第9位表示是否隐藏
-    
     for (int i=0;i<n;i++){ // 地图转换
         for (int j=0;j<m;j++){
             if (_map[i][j]<9) map[i][j]=_map[i][j];
