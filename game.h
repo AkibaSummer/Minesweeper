@@ -37,6 +37,8 @@ private:
 public:
     void init(int,int,int,int);
     void reset();
+    int calculate(int , int);//lxm
+    MapStatus check();//lxm
     MapStatus leftClick(int,int);
     MapStatus rightClick(int,int);
     MapStatus doubleClick(int,int);
