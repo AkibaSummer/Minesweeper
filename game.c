@@ -116,7 +116,7 @@ int Game::calculate(int x, int y)
 					mineNum++;                 // 统计以(x,y)为中心的四周的雷数目
 		return mineNum;
 	}
-auto Game:: check() {
+MapStatus Game:: check() {
 		int mine = 0;//被隐藏地雷的数量
 		for (i = 0;i <= xedge;i++){
 			for (j = 0;j <= yedge;j++){
