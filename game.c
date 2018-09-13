@@ -104,11 +104,68 @@ void Game::reset(){
             setBit(j,9,1);
         }
 }
+//lixiaoman------------------------------
+int Game::calculate(int x, int y)
+	{
+		int mineNum = 0;
+		for (int i = -1; i < 2; i++)
+			for (int j = -1; j < 2; j++)
+				if(x + i >= 0 && x + i<= xedge && y +j >= 0
+					&& y + j<= yedge)//边界限定
+				if (isMine(x + i, y + j) == 1)
+					mineNum++;                 // 统计以(x,y)为中心的四周的雷数目
+		return mineNum;
+	}
+auto Game:: check() {
+		int mine = 0;//被隐藏地雷的数量
+		for (i = 0;i <= xedge;i++){
+			for (j = 0;j <= yedge;j++){
+				if (getBit(maps[i][j], 9)
+				{
+					mine++;
+				}
+			}
+				
+		}
+		      if(mine==mineNumber){ return MapStatus(map, 1); }
+	}
 
 MapStatus Game::leftClick(int,int){
+   
     
-    return MapStatus();
-}
+	//如果点到地雷，失败
+	if (getBit(maps[x][y], 5)) { return MapStatus(map, -1); }
+	//如果点到已显示的空白和旗帜，继续游戏
+	if (getBit(maps[x][y], 7) || !(getBit(maps[x][y], 9))) { return MapStatus(map, 0); }
+	
+	//如果点到空白，自动向外扩展(递归)；
+    if (getBit(maps[x][y], 9)) {
+			if (calculate(x, y) == 0)//如果周围无地雷，继续检测周围是否有数字,空白
+			{
+				setBit(maps[x][y], 9, 0);
+				for (int i = -1; i < 2; i++)
+					for (int j = -1; j < 2; j++)
+						if (x + i >= 0 && x +i <= xedge && y + j >= 0
+							&& y +j<= yedge && !(i == 0 && j == 0)
+							&& getBit(maps[x + i]][y + j]], 9))//边界限定，避免递归调用本身，隐藏空白显现
+                        {   leftClick(x + i, y + j);}
+                             
+						else setBit(maps[x][y],9,0);//如果有地雷，显示地雷数目
+				return MapStatus(map, 0);//继续游戏
+			}
+		}
+	
+	
+	 check() ;//判断玩家是否取得游戏胜利
+	
+
+
+
+	}
+
+//lixiaoman-----------------------------------------------
+    
+  
 
 MapStatus Game::rightClick(int x,int y){
     if (getBit(maps[x][y],9)){ 
