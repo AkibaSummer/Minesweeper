@@ -15,6 +15,7 @@ public:
     // 13表示未显示标记问号
     int status; // 0表示继续进行，1表示胜利，-1表示失败
     int mineNumber;
+    int uncoverNumber;
     
     MapStatus(int,int);
     MapStatus(vvi,int);
