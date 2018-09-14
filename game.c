@@ -109,64 +109,59 @@ void Game::reset(){
 }
 //lixiaoman------------------------------
 int Game::calculate(int x, int y)
-	{
-		int mineNum = 0;
-		for (int i = -1; i < 2; i++)
-			for (int j = -1; j < 2; j++)
-				if(x + i >= 0 && x + i<= xEdge && y +j >= 0
-					&& y + j<= yEdge)//边界限定
+{
+	int mineNum = 0;
+	for (int i = -1; i < 2; i++)
+		for (int j = -1; j < 2; j++)
+			if (x + i >= 0 && (x + i <= (int)maps.size() - 1) &&( y + j >= 0)
+				&& (y + j <= maps.front().size() - 1))//边界限定
 				if (isMine(x + i, y + j) == 1)
 					mineNum++;                 // 统计以(x,y)为中心的四周的雷数目
-		return mineNum;
-	}
-MapStatus Game:: check() {
-		int mine = 0;//被隐藏地雷的数量
-		for (i = 0;i <= xEdge;i++){
-			for (j = 0;j <= yEdge;j++){
-				if (getBit(maps[i][j], 9)
-				{
-					mine++;
-				}
+	return mineNum;
+}
+MapStatus Game::check() {
+	int mine = 0;//被隐藏地雷的数量
+	for (int i = 0; i <= (int)maps.size() - 1; i++) {
+		for (int j = 0; j <= (int)maps.front().size() - 1; j++) {
+			if (getBit(maps[i][j], 9))
+			{
+				mine++;
 			}
-				
 		}
-		      if(mine==mineNumber){ return MapStatus(map, 1); }
-	}
 
-MapStatus Game::leftClick(int,int){
-   
-    
+	}
+	if (mine == MapStatus().mineNumber) { return MapStatus(maps, 1); }
+}
+
+MapStatus Game::leftClick(int x, int y) {
 	//如果点到地雷，失败
-	if (getBit(maps[x][y], 5)) { return MapStatus(map, -1); }
+	if (getBit(maps[x][y], 5)) { return MapStatus(maps, -1); }
 	//如果点到已显示的空白和旗帜，继续游戏
-	if (getBit(maps[x][y], 7) || !(getBit(maps[x][y], 9))) { return MapStatus(map, 0); }
-	
+	if (getBit(maps[x][y], 7) || !(getBit(maps[x][y], 9))) { return MapStatus(maps, 0); }
+
 	//如果点到空白，自动向外扩展(递归)；
-        if (getBit(maps[x][y], 9)) {
-	   if (calculate(x, y) == 0)//如果周围无地雷，继续检测周围是否有数字,空白
-	   {   setBit(maps[x][y], 9, 0);
-	       for (int i = -1; i < 2; i++){
-		for (int j = -1; j < 2; j++){
-	          if (x + i >= 0 && x +i <= xEdge && y + j >= 0
-		    && y +j<= yEdge && !(i == 0 && j == 0)
-		    && getBit(maps[x + i]][y + j]], 9))//边界限定，避免递归调用本身，隐藏空白显现
-                        {   leftClick(x + i, y + j);}}}
-                             
-	   else setBit(maps[x][y],9,0);//如果有地雷，显示地雷数目
-		return MapStatus(map, 0);//继续游戏
-			}
+	if (getBit(maps[x][y], 9)) {
+		if (calculate(x, y) == 0)//如果周围无地雷，继续检测周围是否有数字,空白
+		{
+			setBit(maps[x][y], 9, 0);
+			for (int i = -1; i < 2; i++) {
+				for (int j = -1; j < 2; j++) {
+					if (x + i >= 0 && (x + i <= (int)maps.front().size() - 1) && y + j >= 0
+						&& (y + j <= (int)maps.size() - 1) && !(i == 0 && j == 0)
+						&& getBit(maps[x + i][y + j], 9))//边界限定，避免递归调用本身，隐藏空白显现
+					{
+						leftClick(x + i, y + j);
+					}
+					else setBit(maps[x][y], 9, 0);
+				}
+			}//如果有地雷，显示地雷数目
+			return MapStatus(maps, 0);//继续游戏
 		}
-	
-	
-	 check() ;//判断玩家是否取得游戏胜利
-	
-
-
-
 	}
+	check();//判断玩家是否取得游戏胜利
+}
 
-//lixiaoman-----------------------------------------------
-    
+//lixiaoman-----------------------------------------------   
   
 
 MapStatus Game::rightClick(int x,int y){
@@ -187,59 +182,44 @@ MapStatus Game::rightClick(int x,int y){
 }
 				    
 //蒋雪莲 
-bool Game::doExist(int x,int y){//判断包括某一个方块在内的九个方块有没有雷 
-	for(int j = -1;j < 2;j++){
-		for(int i = -1;i < 2;i++){
-			if((0<=x+j<=(int)maps.size()-1)&&(0<=y+i<=(int)maps.front.size()-1)&&getBit(maps[x+i][y+j],5))//保证边界处也能判断 
-			return  1; 
-		}
-	}
-	return 0;
-}
-
-MapStatus Game::doubleClick(int x,int y){
+MapStatus Game::doubleClick(int x, int y) {
 	int num = 0;//num代表一共检测到标记与地雷相同的方块个数
-	if((0<=x<=(int)maps.size()-1) && (0<=y<=(int)maps.front.size()-1) && !getBit(maps[x][y],9)&&(1<=getNum(maps[x][y])<= 8)){//该为是显示的数字且点击有效	 
-		if(num == getNum(maps[x][y])){//如果旗子判断正确就开始递归，并且判断是否游戏成功 
-			check(maps[x],maps[y]);
-			if((MapStatus(maps,0).uncoverNumber == MapStatus(maps,0).mineNumber)
-			//如果当前被隐藏的的数量等于当前的雷数,必须要把除了雷之外的都点开才游戏结束 
-			return MapStatus(maps,1);
-			else return MapStatus(maps,0);//若还有则继续进行 
+	if ((0 <= x) && (x <= (int)maps.size() - 1) && (0 <= y) && (y <= (int)maps.front().size() - 1)
+		&& !getBit(maps[x][y], 9) && (1 <= getNum(maps[x][y])) && (getNum(maps[x][y]) <= 8)) {//该是显示的数字且点击有效	 
+		if (num == getNum(maps[x][y])) {//如果旗子判断正确就开始递归，并且判断是否游戏成功 
+			jCheck(x, y);
+			if ((MapStatus(maps, 0).uncoverNumber == MapStatus(maps, 0).mineNumber))
+				//如果当前被隐藏的的数量等于当前的雷数,必须要把除了雷之外的都点开才游戏结束 
+				return MapStatus(maps, 1);
+
+			else return MapStatus(maps, 0);//若还有则继续进行 
 		}
-		else if(doExist(x,y)){//周围九个里有地雷就炸,失败 
-			return MapStatus(maps,-1);
+		else if ((1<=getNum(maps[x][y]))&&(getNum(maps[x][y])<=8)) {//周围九个里有地雷就炸,失败 
+			return MapStatus(maps, -1);
 		}
-			else return MapStatus(maps,0); 
+		else return MapStatus(maps, 0);
 	}
-} 
-	
-	
-MapStatus Game::check (int x,int y){//检测周围八个方块里是否有雷，有的话不动，将数字其置为非隐藏
-//传入的位置应当经过判断，是否为符合条件的（显示出来的数字）
-setBit(maps[x][y],9,0); //先置为非隐藏 
- 	for (int j = -1; j < 2; j++){
-		for (int i = -1; i < 2; i++){
-	 	 	if((0 <= x + i <= xEdge) && (0 <= y + j <= yEdge)&&(i||j)){//递归过程中的边界限定,且不能同时为0 
-		  		if ( !doExist(x +i, y + j) ){//若未检测到雷，进行递归  
-		  			check(x + i,y + j);
-		  		  }
-				else return MapStatus(maps,0);//检测到雷，停止递归，返回上一层调用继续进行循环 
-				//所有情况都会跳到这句  
-		      } 
-	 	}				
-	 } 
-}	  
-
-
-				    
-				    
-				    
-
-MapStatus Game::doubleClick(int,int){
-    return MapStatus();
 }
 
+
+void Game::jCheck(int x, int y) {//检测周围八个方块里是否有雷，有的话不动，将数字其置为非隐藏
+    //传入的位置应当经过判断，是否为符合条件的（显示出来的数字），插旗子的地方一定是不隐藏的
+	if (!getBit(maps[x][y], 9))return;
+	setBit(maps[x][y], 9, 0); //先置为非隐藏 
+	for (int j = -1; j < 2; j++) {
+		for (int i = -1; i < 2; i++) {
+			if ((0 <= x + i) && (x + i <= (int)maps.size() - 1) && (0 <= y + j) && (y + j <= (int)maps.front().size() - 1) && (i || j)) {
+				//递归过程中的边界限定,且不能同时为0 
+				if (!(1<=getNum(maps[x][y])&&getNum(maps[x][y])<=8)) {//若未检测到雷，进行递归  
+					jCheck(x + i, y + j);
+				}
+				else return;//检测到雷，停止递归，返回上一层调用继续进行循环 
+							//所有情况都会跳到这句  
+			}
+		}
+	}
+}
+			    
 int main(){
     
 }
