@@ -40,6 +40,9 @@ public:
     void reset();
     int calculate(int , int);//lxm
     MapStatus check();//lxm
+    MapStatus check (int ,int );//检测周围八个方块里是否有雷，有的话不动，将数字其置为非隐藏
+//传入的位置应当经过判断，是否为符合条件的（显示出来的数字）J
+    bool doExist(int x,int y);//判断包括某一个方块在内的九个方块有没有雷J 
     MapStatus leftClick(int,int);
     MapStatus rightClick(int,int);
     MapStatus doubleClick(int,int);
