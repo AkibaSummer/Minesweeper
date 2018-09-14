@@ -79,7 +79,7 @@ void Minesweeper::mousePressEvent(QMouseEvent*m){
     if (m->button()==Qt::LeftButton){
         QPainter pen(&maptemp);
         images.load(":/images/Anime/16.png");
-        images=images.scaled(50,50,Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
+        images=images.scaled(50,50);
         pen.drawImage(x-25,y-25,images);
         update();
     }
