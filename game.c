@@ -21,9 +21,12 @@ MapStatus::MapStatus(vvi _map,int _status){
         i.resize(m,0); // 重置为0
         
     mineNumber=0;//取得剩余雷的数量
+    uncoverNumber=0;//取得剩余隐藏数量
     for (auto &i:_map)
-    for (auto &j:i)
+    for (auto &j:i){
     if (getBit(j,5)&&getBit(j,9)) mineNumber++;
+    if (getBit(j,9))uncoverNumber++;
+    }
     
     for (int i=0;i<n;i++){ // 地图转换
         for (int j=0;j<m;j++){
@@ -182,6 +185,56 @@ MapStatus Game::rightClick(int x,int y){
     }
     return MapStatus(maps,0);
 }
+				    
+//蒋雪莲 
+bool Game::doExist(int x,int y){//判断包括某一个方块在内的九个方块有没有雷 
+	for(int j = -1;j < 2;j++){
+		for(int i = -1;i < 2;i++){
+			if((0<=x+j<=(int)maps.size()-1)&&(0<=y+i<=(int)maps.front.size()-1)&&getBit(maps[x+i][y+j],5))//保证边界处也能判断 
+			return  1; 
+		}
+	}
+	return 0;
+}
+
+MapStatus Game::doubleClick(int x,int y){
+	int num = 0;//num代表一共检测到标记与地雷相同的方块个数
+	if((0<=x<=(int)maps.size()-1) && (0<=y<=(int)maps.front.size()-1) && !getBit(maps[x][y],9)&&(1<=getNum(maps[x][y])<= 8)){//该为是显示的数字且点击有效	 
+		if(num == getNum(maps[x][y])){//如果旗子判断正确就开始递归，并且判断是否游戏成功 
+			check(maps[x],maps[y]);
+			if((MapStatus(maps,0).uncoverNumber == MapStatus(maps,0).mineNumber)
+			//如果当前被隐藏的的数量等于当前的雷数,必须要把除了雷之外的都点开才游戏结束 
+			return MapStatus(maps,1);
+			else return MapStatus(maps,0);//若还有则继续进行 
+		}
+		else if(doExist(x,y)){//周围九个里有地雷就炸,失败 
+			return MapStatus(maps,-1);
+		}
+			else return MapStatus(maps,0); 
+	}
+} 
+	
+	
+MapStatus Game::check (int x,int y){//检测周围八个方块里是否有雷，有的话不动，将数字其置为非隐藏
+//传入的位置应当经过判断，是否为符合条件的（显示出来的数字）
+setBit(maps[x][y],9,0); //先置为非隐藏 
+ 	for (int j = -1; j < 2; j++){
+		for (int i = -1; i < 2; i++){
+	 	 	if((0 <= x + i <= xEdge) && (0 <= y + j <= yEdge)&&(i||j)){//递归过程中的边界限定,且不能同时为0 
+		  		if ( !doExist(x +i, y + j) ){//若未检测到雷，进行递归  
+		  			check(x + i,y + j);
+		  		  }
+				else return MapStatus(maps,0);//检测到雷，停止递归，返回上一层调用继续进行循环 
+				//所有情况都会跳到这句  
+		      } 
+	 	}				
+	 } 
+}	  
+
+
+				    
+				    
+				    
 
 MapStatus Game::doubleClick(int,int){
     return MapStatus();
