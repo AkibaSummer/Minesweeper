@@ -108,17 +108,7 @@ void Game::reset(){
         }
 }
 //lixiaoman------------------------------
-int Game::calculate(int x, int y)
-{
-	int mineNum = 0;
-	for (int i = -1; i < 2; i++)
-		for (int j = -1; j < 2; j++)
-			if (x + i >= 0 && (x + i <= (int)maps.size() - 1) &&( y + j >= 0)
-				&& (y + j <= maps.front().size() - 1))//边界限定
-				if (isMine(x + i, y + j) == 1)
-					mineNum++;                 // 统计以(x,y)为中心的四周的雷数目
-	return mineNum;
-}
+
 MapStatus Game::check() {
 	int mine = 0;//被隐藏地雷的数量
 	for (int i = 0; i <= (int)maps.size() - 1; i++) {
@@ -141,7 +131,7 @@ MapStatus Game::leftClick(int x, int y) {
 
 	//如果点到空白，自动向外扩展(递归)；
 	if (getBit(maps[x][y], 9)) {
-		if (calculate(x, y) == 0)//如果周围无地雷，继续检测周围是否有数字,空白
+		if (getNum(maps[x][y]) == 0)//如果周围无地雷，继续检测周围是否有数字,空白
 		{
 			setBit(maps[x][y], 9, 0);
 			for (int i = -1; i < 2; i++) {
