@@ -41,7 +41,6 @@ private:
 public:
 	void init(int, int, int, int);
 	void reset();
-	int calculate(int, int);//lxm
 	MapStatus check();//lxm
 	void jCheck(int, int);//检测周围八个方块里是否有雷，有的话不动，将数字其置为非隐藏.传入的位置应当经过判断，是否为符合条件的（显示出来的数字）J
 	MapStatus leftClick(int, int);
