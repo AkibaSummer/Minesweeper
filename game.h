@@ -46,4 +46,5 @@ public:
 	MapStatus leftClick(int, int);
 	MapStatus rightClick(int, int);
 	MapStatus doubleClick(int, int);
+	MapStatus getMaps()&;
 };
