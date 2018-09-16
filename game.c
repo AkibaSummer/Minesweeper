@@ -9,7 +9,7 @@ inline bool MapStatus::getBit(int num,int pos){
 MapStatus::MapStatus(int n=0,int m=0){
     map.resize(n);
     for (auto &i:map)
-    i.resize(m,0);
+        i.resize(m,0);
 };
 
 MapStatus::MapStatus(vvi _map,int _status){
@@ -18,7 +18,7 @@ MapStatus::MapStatus(vvi _map,int _status){
     int n(_map.size()),m(_map.front().size()); // 地图初始化
     map.resize(n);
     for (auto &i:map)
-    i.resize(m,0); // 重置为0
+        i.resize(m,0); // 重置为0
     
     mineNumber=0;//取得剩余雷的数量
     uncoverNumber=0;//取得剩余隐藏数量
@@ -49,12 +49,12 @@ inline bool Game::getBit(int num,int pos){ // 取得数字的某一二进制位
 }
 
 inline void Game::setBit(int &num,int pos,int bit){ // 将某一位设置成指定bit
-if (bit){
-num|=1<<(pos-1);
-}
-else {
-num=~((~num)|(1<<(pos-1)));
-}
+    if (bit){
+        num|=1<<(pos-1);
+    }
+    else {
+        num=~((~num)|(1<<(pos-1)));
+    }
 }
 
 
@@ -69,7 +69,7 @@ inline bool Game::isMine(int i,int j){ // 判断某一位置是否是雷（加�
 void Game::init(int n,int m,int num,int seed=time(0)){
     maps.resize(n); // 初始化地图，分配内存
     for (auto &i:maps)
-    i.resize(m,0); // 重置为0
+        i.resize(m,0); // 重置为0
     srand(seed); // 设定随机数种子
 
     for (int i=1;i<=num;i++){ // 放置地雷
