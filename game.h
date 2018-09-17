@@ -38,10 +38,13 @@ private:
 	inline void setBit(int&, int, int);
 	inline int getNum(int);
 	inline bool isMine(int, int);
+	inline bool isFlag(int, int);
+	inline int flagNum(int, int);
 public:
 	void init(int, int, int, int);
 	void reset();
-	void check(int, int);
+	bool check(int, int);
+	//void check2(int, int); 
 	MapStatus leftClick(int, int);
 	MapStatus rightClick(int, int);
 	MapStatus doubleClick(int, int);
