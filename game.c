@@ -108,20 +108,16 @@ void Game::reset() {
 }
 
 
-void Game::check(int x, int y) {//检测周围八个方块里是否有雷，有的话不动，将数字其置为非隐藏
-    //传入的位置应当经过判断，是否为符合条件的（显示出来的数字），插旗子的地方一定是不隐藏的
-    if (!getBit(maps[x][y], 9))return;
-    setBit(maps[x][y], 9, 0); //先置为非隐藏
+void Game::check(int x, int y) {
+    if (x<0||x>=maps.size()||y<0||y>=maps.front().size())return; //判断位置是否合法
+    if (!getBit(maps[x][y], 9)||getNum(maps[x][y])){ //判断点击方块是否为空
+        maps[x][y]&=63; 
+        return;
+    }
+    maps[x][y]&=63; //将方块显示并删除所有属性
     for (int j = -1; j < 2; j++) {
         for (int i = -1; i < 2; i++) {
-            if ((0 <= x + i) && (x + i <= (int)maps.size() - 1) && (0 <= y + j) && (y + j <= (int)maps.front().size() - 1) && (i || j)) {
-                //递归过程中的边界限定,且不能同时为0
-                if (!(1<=getNum(maps[x][y])&&getNum(maps[x][y])<=8)) {//若未检测到雷，进行递归
-                    check(x + i, y + j);
-                }
-                else return;//检测到雷，停止递归，返回上一层调用继续进行循环
-                //所有情况都会跳到这句
-            }
+            check(x + i, y + j);
         }
     }
 }
@@ -132,12 +128,11 @@ MapStatus Game::leftClick(int x, int y){
 		 return MapStatus(maps, -1); 
 	}//如果点到地雷，失败
 	else 
-		if (getBit(maps[x][y], 7) || !(getBit(maps[x][y], 9))){//如果点到旗帜和已显示的，继续游戏
-			 return MapStatus(maps, 0); 
+		if (!(getBit(maps[x][y], 9))){//如果点到旗帜和已显示的，继续游戏
+			 return MapStatus(maps, 0);
 		}
 		else 
 			{ //如果点到隐藏的空格和数字，先翻开该位置，然后递归掀开周围的方块
-				setBit(maps[x][y],9,0); 
                 check(x , y);
                 if ((MapStatus(maps, 0).coverNumber == MapStatus(maps, 0).mineNumber))
 				//如果当前被隐藏的的数量等于当前的雷数游戏结束 
