@@ -18,7 +18,7 @@ public:
 	// 13表示未显示标记问号
 	int status; // 0表示继续进行，1表示胜利，-1表示失败
 	int mineNumber;
-	int uncoverNumber;
+	int coverNumber;
 
 	MapStatus(int, int);
 	MapStatus(vvi, int);
@@ -41,8 +41,7 @@ private:
 public:
 	void init(int, int, int, int);
 	void reset();
-	MapStatus check();//lxm
-	void jCheck(int, int);//检测周围八个方块里是否有雷，有的话不动，将数字其置为非隐藏.传入的位置应当经过判断，是否为符合条件的（显示出来的数字）J
+	void check(int, int);
 	MapStatus leftClick(int, int);
 	MapStatus rightClick(int, int);
 	MapStatus doubleClick(int, int);
