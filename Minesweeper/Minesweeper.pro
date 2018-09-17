@@ -36,5 +36,4 @@ FORMS += \
 DISTFILES +=
 
 RESOURCES += \
-    img.qrc \
-    sound.qrc
+    res.qrc
