@@ -1,4 +1,5 @@
-#include <bits/stdc++.h>
+//#include <bits/stdc++.h>
+#include <iostream>
 #include "game.h"
 using namespace std;
 
@@ -15,13 +16,13 @@ MapStatus::MapStatus(int n = 0, int m = 0) {
 MapStatus::MapStatus(vvi _map, int _status) {
 	status = _status;
 
-	int n(_map.size()), m(_map.front().size()); // 地图初始化//这也行？！ 
+	int n(_map.size()), m(_map.front().size()); // 地图初始化
 	map.resize(n);
-	for (auto &i : map)//？？？？？？？ 
-		i.resize(m, 0); // 重置为0
+	for (auto &i : map) 
+		i.resize(m, 0); 
 
 	mineNumber = 0;//取得剩余雷的数量
-	coverNumber = 0;//取得剩余隐藏数量
+	coverNumber = 0;//取得剩余隐藏数量 
 	for (auto &i : _map)
 		for (auto &j : i) {
 			if (getBit(j, 5) && getBit(j, 9)) mineNumber++;
@@ -57,13 +58,26 @@ inline void Game::setBit(int &num, int pos, int bit) { // 将某一位设置成�
 	}
 }
 
-
 inline int Game::getNum(int num) {
 	return num & 15;
 }
 
 inline bool Game::isMine(int i, int j) { // 判断某一位置是否是雷（加上了边界判断）
 	return i<0 || i >= (int)maps.size() || j<0 || j >= (int)maps.front().size() ? 0 : getBit(maps[i][j], 5);
+}
+
+inline bool Game::isFlag(int i, int j) { // 判断某一位置是否是flag（加上了边界判断）
+	return i<0 || i >= (int)maps.size() || j<0 || j >= (int)maps.front().size() ? 0 : getBit(maps[i][j], 7);
+}
+
+inline int Game::flagNum(int i, int j) {
+	int num(0);
+			for (int x = i - 1; x <= i + 1; x++) {
+				for (int y = j - 1; y <= j + 1; y++) {
+					if (isFlag(x, y))num++;
+				}
+			}
+			return num;
 }
 
 void Game::init(int n, int m, int num, int seed = time(0)) {
@@ -107,28 +121,29 @@ void Game::reset() {
 		}
 }
 
-
-void Game::check(int x, int y) {
-    if (x<0||x>=maps.size()||y<0||y>=maps.front().size())return; //判断位置是否合法
-    if (!getBit(maps[x][y], 9)||getNum(maps[x][y])){ //判断点击方块是否为空
-        maps[x][y]&=63; 
-        return;
-    }
-    maps[x][y]&=63; //将方块显示并删除所有属性
-    for (int j = -1; j < 2; j++) {
-        for (int i = -1; i < 2; i++) {
-            check(x + i, y + j);
+bool Game::check(int x, int y){
+    if (x<0||x>=maps.size()||y<0||y>=maps.front().size()) return 0; //判断位置是否合法
+	if (getBit(maps[x][y],5) && !getBit(maps[x][y], 8) && !getBit(maps[x][y], 7)) return 1;//如果是旗子或者标记 
+	else if (!getBit(maps[x][y], 9)||getNum(maps[x][y])){//判断点击方块是否为显示或者数字 
+	maps[x][y]&= 63; //对前6位保留；旗帜、问号标记与隐藏都改变为0 
+	return 0;
+}
+    maps[x][y]&= 63; //将方块显示并删除所有属性，见上一个注释 
+	bool flag(0);
+	for (int j = -1; j < 2; j++){
+        for (int i = -1; i < 2; i++){
+            flag|=check(x + i, y + j);
         }
     }
+	return flag;
 }
-
 
 MapStatus Game::leftClick(int x, int y){
 	if (getBit(maps[x][y], 5)){
 		 return MapStatus(maps, -1); 
 	}//如果点到地雷，失败
 	else 
-		if (!(getBit(maps[x][y], 9))){//如果点到旗帜和已显示的，继续游戏
+		if (!(getBit(maps[x][y], 9))||getBit(maps[x][y],7)||getBit(maps[x][y],8)){//如果点到旗帜和已显示的，继续游戏
 			 return MapStatus(maps, 0);
 		}
 		else 
@@ -139,9 +154,7 @@ MapStatus Game::leftClick(int x, int y){
 				return MapStatus(maps, 1);
 				else return MapStatus(maps, 0);
             }
-}
-		
-
+}		
 
 MapStatus Game::rightClick(int x, int y) {
 	if (!getBit(maps[x][y], 9)) {
@@ -160,32 +173,24 @@ MapStatus Game::rightClick(int x, int y) {
 	return MapStatus(maps, 0);
 }
 
-//蒋雪莲
 MapStatus Game::doubleClick(int x, int y) {
+	bool flag = 0;
 	int num = 0;//num代表一共检测到标记与地雷相同的方块个数
-	for(int j = -1;j < 2; j++){
-		for(int i = -1;i < 2;i++){
-			if(getBit(maps[x][y],7)&&getBit(maps[x][y],5))//如果雷跟旗子标记正确num加一 
-				num++;
-		}		
-		
-	}
-	if ((0 <= x) && (x <= (int)maps.size() - 1) && (0 <= y) && (y <= (int)maps.front().size() - 1)
-		&& !getBit(maps[x][y], 9) && (1 <= getNum(maps[x][y])) && (getNum(maps[x][y]) <= 8)) {//该是显示的数字且点击有效
-		if (num == getNum(maps[x][y])) {//如果旗子判断正确就开始递归，并且判断是否游戏成功
-			check(x, y);//掀开周围的空格以及数字 
+	if (!(getNum(maps[x][y])==flagNum(x,y)))return MapStatus(maps, 0);
+	if ((!getBit(maps[x][y], 9)) && getNum(maps[x][y])) {
+		//该位置是显示的数字且点击有效
+			for(int j=-1;j<2;j++){//循环周围的八个格子 
+				for(int i=-1;i<2;i++){
+					if((i||j)&& !isFlag(x+i, y+j))//保证不在x，y调用check2 
+					flag|=check(x+i,y+j);
+				} 
+			}
 			if ((MapStatus(maps, 0).coverNumber == MapStatus(maps, 0).mineNumber))
 			//如果当前被隐藏的的数量等于当前的雷数，游戏成功结束
-				return MapStatus(maps, 1);
-			else return MapStatus(maps, 0);//若还有则继续进行
-		}
-		else return MapStatus(maps, -1);//没标对就炸，因为这个被点击的地方一定是显示的数字 
-		}
-	else return MapStatus(maps,0);//如果点击无效，返回0 
+				return MapStatus(maps, flag?-1:1);
+			else return MapStatus(maps, -flag);//若还有则继续进行 
+	}
 }
-
-
-
 
 MapStatus Game::getMaps()& {
 	return MapStatus(maps, 0);
