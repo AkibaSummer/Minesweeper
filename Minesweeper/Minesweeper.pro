@@ -1,12 +1,10 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2018-09-11T15:48:28
+# Project created by QtCreator 2018-09-15T11:47:30
 #
 #-------------------------------------------------
 
-QT       += core gui
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QT       += core gui widgets
 
 TARGET = Minesweeper
 TEMPLATE = app
@@ -22,18 +20,36 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-
+CONFIG += c++11
+CONFIG += resources_big
 SOURCES += \
         main.cpp \
-        minesweeper.cpp
+        Minesweeper.cpp \
+        game.cpp \
+    rule.cpp \
+    custom.cpp
 
 HEADERS += \
-        minesweeper.h
+        Minesweeper.h \
+        game.h \
+    rule.h \
+    custom.h
 
 FORMS += \
-        minesweeper.ui
+        Minesweeper.ui \
+    rule.ui \
+    custom.ui
 
-DISTFILES +=
+# Default rules for deployment.
+qnx: target.path = /tmp/$${TARGET}/bin
+else: unix:!android: target.path = /opt/$${TARGET}/bin
+!isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    res.qrc
+    res_1.qrc \
+    res_2.qrc \
+    res_3.qrc \
+    res_4.qrc \
+    custompic.qrc
+
+DISTFILES +=
