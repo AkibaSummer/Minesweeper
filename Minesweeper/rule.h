@@ -1,4 +1,4 @@
-﻿\#ifndef RULE_H
+﻿#ifndef RULE_H
 #define RULE_H
 
 #include <QWidget>

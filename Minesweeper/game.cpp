@@ -121,7 +121,7 @@ void Game::reset() {
 }
 
 bool Game::check(int x, int y){
-    if (x<0||x>=maps.size()||y<0||y>=maps.front().size()) return 0; //判断位置是否合法
+    if (x<0||x>=(int)maps.size()||y<0||y>=(int)maps.front().size()) return 0; //判断位置是否合法
 	if (getBit(maps[x][y],5) && !getBit(maps[x][y], 8) && !getBit(maps[x][y], 7)) return 1;//如果是旗子或者标记 
 	else if (!getBit(maps[x][y], 9)||getNum(maps[x][y])){//判断点击方块是否为显示或者数字 
 	maps[x][y]&= 63; //对前6位保留；旗帜、问号标记与隐藏都改变为0 
@@ -175,7 +175,6 @@ MapStatus Game::rightClick(int x, int y) {
 MapStatus Game::doubleClick(int x, int y) {
     if (getBit(maps[x][y],5))return MapStatus(maps,0);
     bool flag = 0;
-	int num = 0;//num代表一共检测到标记与地雷相同的方块个数
     if (!getBit(maps[x][y], 9) && getNum(maps[x][y]) ) {
         if (!(getNum(maps[x][y])==flagNum(x,y)))return MapStatus(maps, 0);
 		//该位置是显示的数字且点击有效
@@ -190,6 +189,7 @@ MapStatus Game::doubleClick(int x, int y) {
 				return MapStatus(maps, flag?-1:1);
 			else return MapStatus(maps, -flag);//若还有则继续进行 
 	}
+    return MapStatus(maps,0);
 }
 
 MapStatus Game::getMaps()& {

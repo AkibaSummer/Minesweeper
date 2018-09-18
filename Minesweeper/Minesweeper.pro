@@ -33,6 +33,7 @@ HEADERS += \
         Minesweeper.h \
         game.h \
     rule.h \
+    stdc++.h \
     custom.h
 
 FORMS += \
