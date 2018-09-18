@@ -173,7 +173,7 @@ void MainWindow::changeBackGround(QString picDir)
 {
     QPainter painter(&maptemp);
     pix.load(picDir);
-    for(int i=0;i<50;i++){
+    for(int i=0;i<20;i++){
         painter.drawPixmap(0,0,1920,1080,pix);
 #ifdef __linux__
         system("sleep 0.001");
@@ -213,6 +213,7 @@ void MainWindow::loadGame(int _diff,int x,int y ,int num){//diff x y num
 //    QPixmap img_11;
     int blockSizeX=1000/game.size_x;
     int blockSizeY=1000/game.size_y;
+    blockSizeX=blockSizeY=min(blockSizeX,blockSizeY);
     img.img_01=img.img_01.scaled(blockSizeX-4,blockSizeY-4);
     img.img_04=img.img_04.scaled(blockSizeX-4,blockSizeY-4);
     img.img_05=img.img_05.scaled(blockSizeX-4,blockSizeY-4);
