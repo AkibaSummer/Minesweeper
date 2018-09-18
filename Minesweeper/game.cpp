@@ -174,14 +174,15 @@ MapStatus Game::rightClick(int x, int y) {
 }
 
 MapStatus Game::doubleClick(int x, int y) {
-	bool flag = 0;
+    if (getBit(maps[x][y],5))return MapStatus(maps,0);
+    bool flag = 0;
 	int num = 0;//num代表一共检测到标记与地雷相同的方块个数
-	if (!(getNum(maps[x][y])==flagNum(x,y)))return MapStatus(maps, 0);
-	if ((!getBit(maps[x][y], 9)) && getNum(maps[x][y])) {
+    if (!getBit(maps[x][y], 9) && getNum(maps[x][y]) ) {
+        if (!(getNum(maps[x][y])==flagNum(x,y)))return MapStatus(maps, 0);
 		//该位置是显示的数字且点击有效
 			for(int j=-1;j<2;j++){//循环周围的八个格子 
 				for(int i=-1;i<2;i++){
-					if((i||j)&& !isFlag(x+i, y+j))//保证不在x，y调用check2 
+                    if(!isFlag(x+i, y+j))//保证不在x，y调用check2
 					flag|=check(x+i,y+j);
 				} 
 			}

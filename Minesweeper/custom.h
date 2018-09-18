@@ -8,6 +8,7 @@
 #include <QTimer>
 #include <QString>
 #include <QPainter>
+#include <QMainWindow>
 namespace Ui {
 class Custom;
 }
@@ -20,7 +21,6 @@ public:
     int size_x=10,size_y=10,num_boom=10;
     QImage images;
     QPixmap maptemp=QPixmap(693,650);
-
     void init();
     void paintEvent(QPaintEvent*w);
     explicit Custom(QWidget *parent = nullptr);
@@ -28,6 +28,8 @@ public:
 private slots:
     void on_pushButton2_clicked();
     void on_pushButton1_clicked();
+signals:
+    void setCustomInfo(int,int,int,int);
 private:
     Ui::Custom *ui;
 

@@ -54,7 +54,6 @@ void Custom::paintEvent(QPaintEvent*w){
     Q_UNUSED(w);
     QPainter pen(this);
     pen.drawPixmap(0,0,maptemp);
-
 }
 
 void Custom::on_pushButton2_clicked()//点击取消时调用
@@ -67,6 +66,7 @@ void Custom::on_pushButton1_clicked()//点击确定时调用
     size_x=this->ui->lineEdit1->text().toInt();
     size_y=this->ui->lineEdit2->text().toInt();
     num_boom=this->ui->lineEdit3->text().toInt();
+    emit setCustomInfo(0,size_x,size_y,num_boom);
     this->close();//得到行数列数雷数，储存在三个QString对象中（后期调用数据），点击确定关闭自定义窗口
 }
 Custom::~Custom()
