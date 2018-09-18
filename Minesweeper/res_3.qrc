@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/Sea/01.png</file>
+        <file>images/Sea/04.png</file>
+        <file>images/Sea/05.jpg</file>
+        <file>images/Sea/14.jpg</file>
+        <file>images/Sea/15.jpg</file>
+        <file>images/Sea/gameBack.png</file>
+        <file>images/Sea/menu1.jpg</file>
+        <file>images/Sea/U1.jpg</file>
+        <file>images/Sea/U1效果图.jpg</file>
+    </qresource>
+</RCC>

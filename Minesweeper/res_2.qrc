@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/Glacier/01.jpg</file>
+        <file>images/Glacier/04.png</file>
+        <file>images/Glacier/05.jpg</file>
+        <file>images/Glacier/14.jpg</file>
+        <file>images/Glacier/15.jpg</file>
+        <file>images/Glacier/gameBack.png</file>
+        <file>images/Glacier/menu2.jpg</file>
+        <file>images/Glacier/U2.jpg</file>
+        <file>images/Glacier/U2效果图.jpg</file>
+    </qresource>
+</RCC>
