@@ -1,4 +1,4 @@
-#include "custom.h"
+﻿#include "custom.h"
 #include "ui_custom.h"
 #include<QPainter>
 #include<algorithm>

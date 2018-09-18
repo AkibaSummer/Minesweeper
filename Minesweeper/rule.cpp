@@ -1,4 +1,4 @@
-#include "rule.h"
+﻿#include "rule.h"
 #include "ui_rule.h"
 #include "QtGui"
 

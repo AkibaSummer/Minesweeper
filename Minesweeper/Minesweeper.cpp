@@ -1,9 +1,9 @@
-﻿#include "Minesweeper.h"
-#include "ui_Minesweeper.h"
+﻿#include "ui_Minesweeper.h"
 #ifdef _WIN32
 #include "Windows.h"
 #include <synchapi.h>
 #endif
+#define mian main
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),

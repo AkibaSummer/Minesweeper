@@ -1,5 +1,4 @@
-//#include <bits/stdc++.h>
-#include "game.h"
+﻿#include "game.h"
 using namespace std;
 
 inline bool MapStatus::getBit(int num, int pos) {
