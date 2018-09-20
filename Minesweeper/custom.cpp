@@ -1,12 +1,9 @@
 ﻿#include "custom.h"
 #include "ui_custom.h"
-#include<QPainter>
-#include<algorithm>
-#include<ctime>
-#include<QTimer>
-#include<QString>
-#include<QDebug>
-#include<QValidator>
+#include <QPainter>
+#include <QTimer>
+#include <QString>
+#include <QValidator>
 
 
 

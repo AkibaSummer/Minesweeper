@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTime>
 #include "QPainter"
 #include "QMouseEvent"
 #include "rule.h"
@@ -9,6 +10,9 @@
 #include "QString"
 #include "custom.h"
 #include "game.h"
+#include "rank.h"
+#include "setname.h"
+#include "ui_Minesweeper.h"
 
 const int centerX=1040;
 const int centerY=550;
@@ -22,6 +26,7 @@ struct Res{
     QString img_gameBack;
     QString img_menu;
     QString img_U;
+    QString level;
 };
 
 struct Img{
@@ -46,36 +51,50 @@ struct Img{
 };
 
 namespace Ui {
-class MainWindow;
+class Minesweeper;
 }
 
-class MainWindow : public QMainWindow
+class Minesweeper : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    explicit Minesweeper(QWidget *parent = nullptr);
+    ~Minesweeper();
 
     QPixmap maptemp=QPixmap(1920,1080);
     QPixmap pix;
+    QPixmap pix1;
+    QPixmap pix2;
+    //实现计时器所需要的两行
+    QTimer *pTimer = new QTimer(this);
+    QTime baseTime;
+    int t;//ms制的时间值
+    int clickTimes = 0;//地图被调用drawGame刷新的次数
+
 
     void init();
     void paintEvent(QPaintEvent*);
     void mousePressEvent(QMouseEvent*);
+    QString sp(int);
+    QString getInfo(int,unsigned int);//从数组中读取玩家数据显示到排行榜
     void mouseDoubleClickEvent(QMouseEvent*);
     void ruleOfGame();
     void customOfGame();
     void changeBackGround(QString);
     void loadGame(int,int,int,int);//diff x y num
     void drawGame();
+    void showTime();//计时器的触发函数
 private slots:
     void closeThis();
     void setCustomGame(int,int,int,int);
+    void updateTimeAndDisplay();//计时器内部槽函数
+
 private:
-    Ui::MainWindow *ui;
+    Ui::Minesweeper *ui;
     Rule ru;
     Custom cu;
+    Rank ra;
     double opacity=0.0;
     QString picDir_;
     Res res={
@@ -86,7 +105,8 @@ private:
         ":/images/Sea/15.jpg",
         ":/images/Sea/gameBack.png",
         ":/images/Sea/menu1.jpg",
-        ":/images/Sea/U1.jpg"
+        ":/images/Sea/U1.jpg",
+        "Easy"
     };
     Img img={
         QPixmap(res.img_01),
@@ -111,6 +131,7 @@ private:
     int loc=1;
     Game game;
     int diff;
+    SetName setName;
 };
 
 #endif // MAINWINDOW_H

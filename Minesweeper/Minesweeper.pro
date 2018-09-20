@@ -27,19 +27,27 @@ SOURCES += \
         Minesweeper.cpp \
         game.cpp \
     rule.cpp \
-    custom.cpp
+    custom.cpp \
+    theendwidget.cpp \
+    rank.cpp \
+    setname.cpp
 
 HEADERS += \
         Minesweeper.h \
         game.h \
     rule.h \
     stdc++.h \
-    custom.h
+    custom.h \
+    theendwidget.h \
+    rank.h \
+    setname.h
 
 FORMS += \
         Minesweeper.ui \
     rule.ui \
-    custom.ui
+    custom.ui \
+    theendwidget.ui \
+    setname.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -54,3 +62,7 @@ RESOURCES += \
     custompic.qrc
 
 DISTFILES +=
+
+
+QT += multimedia
+QT += multimediawidgets

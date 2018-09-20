@@ -19,5 +19,8 @@
         <file>images/U2.png</file>
         <file>images/U3.jpg</file>
         <file>images/U3.png</file>
+        <file>images/rule.jpg</file>
+        <file>images/defeat.jpg</file>
+        <file>images/victory.jpg</file>
     </qresource>
 </RCC>

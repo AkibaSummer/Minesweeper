@@ -1,6 +1,6 @@
 ﻿#include "rule.h"
 #include "ui_rule.h"
-#include "QtGui"
+//#include "QtGui"
 
 Rule::Rule(QWidget *parent) :
     QWidget(parent),
@@ -28,7 +28,7 @@ void Rule::showRule()
     //images.load(":/new/images/rule.png");
     //pen.drawImage(640,217,images);
     QPixmap pix;
-    pix.load(":/images/rule.png");
+    pix.load(":/images/rule.jpg");
     pen.drawPixmap(0,0,696,647,pix);//绝对位置：（640,217）
     update();
 }
