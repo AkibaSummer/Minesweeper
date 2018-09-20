@@ -24,6 +24,7 @@ TheEndWidget::TheEndWidget(QWidget *parent) :
     ui->setupUi(this);
     this->setWindowFlags(Qt::FramelessWindowHint);//隐藏边栏
     this->setWindowModality(Qt::ApplicationModal);//阻塞其他窗口
+
 }
 
 void TheEndWidget::init()
@@ -171,19 +172,20 @@ void TheEndWidget::inlabel(int difficulty,QString name,int score)//排行榜文�
 }
 void TheEndWidget::on_pushButton_clicked()//重新开始此轮游戏
 {
-    newGame.reset();
+    this->close();
+    emit on_pushButton_clickeds();
 }
 
 void TheEndWidget::on_pushButton_2_clicked()//再来一轮新游戏
-{   int mineNumber=10;//需要在之前获得
-    int seed=time(0);//
-    newGame.init(newGame.maps.size(),newGame.maps.front().size(),mineNumber,seed);
-    //newGame为用户玩的那一局的game的对象
+{
+    this->close();
+    emit on_pushButton_2_clickeds();
 }
 
 void TheEndWidget::on_pushButton_3_clicked()//返回菜单
 {
     this->close();
+    emit on_pushButton_3_clickeds();
 }
 
 

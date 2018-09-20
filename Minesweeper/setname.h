@@ -16,11 +16,11 @@ public:
     //void getInfo(int, int, int);
     explicit SetName(QWidget *parent = nullptr);
     ~SetName();
+    TheEndWidget endw;
 private slots:
     void enterName();
 private:
     Ui::SetName *ui;
-    TheEndWidget endw;
 };
 
 #endif // SETNAME_H

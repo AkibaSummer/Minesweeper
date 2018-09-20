@@ -13,6 +13,7 @@
 #include "rank.h"
 #include "setname.h"
 #include "ui_Minesweeper.h"
+#include "theendwidget.h"
 
 const int centerX=1040;
 const int centerY=550;
@@ -89,6 +90,9 @@ private slots:
     void closeThis();
     void setCustomGame(int,int,int,int);
     void updateTimeAndDisplay();//计时器内部槽函数
+    void restart();
+    void restartNew();
+    void backToMenu();
 
 private:
     Ui::Minesweeper *ui;
@@ -132,6 +136,7 @@ private:
     Game game;
     int diff;
     SetName setName;
+    TheEndWidget endw;
 };
 
 #endif // MAINWINDOW_H

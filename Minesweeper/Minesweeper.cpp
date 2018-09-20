@@ -1,4 +1,5 @@
 ﻿#include "Minesweeper.h"
+#include<QDebug>
 #ifdef _WIN32
 #include "Windows.h"
 #include <synchapi.h>
@@ -19,6 +20,25 @@ Minesweeper::Minesweeper(QWidget *parent) :
     ra.init();
     this->pTimer=new QTimer;//计时器
     connect(this->pTimer,SIGNAL(timeout()),this,SLOT(updateTimeAndDisplay()));//如果溢出就自动更新时间
+
+    disconnect(&endw,SIGNAL(on_pushButton_clickeds()),this,SLOT(restart()));
+    connect(&endw,SIGNAL(on_pushButton_clickeds()),this,SLOT(restart()));
+
+    disconnect(&endw,SIGNAL(on_pushButton_2_clickeds()),this,SLOT(restartNew()));
+    connect(&endw,SIGNAL(on_pushButton_2_clickeds()),this,SLOT(restartNew()));
+
+    disconnect(&endw,SIGNAL(on_pushButton_3_clickeds()),this,SLOT(backToMenu()));
+    connect(&endw,SIGNAL(on_pushButton_3_clickeds()),this,SLOT(backToMenu()));
+
+    disconnect(&setName.endw,SIGNAL(on_pushButton_clickeds()),this,SLOT(restart()));
+    connect(&setName.endw,SIGNAL(on_pushButton_clickeds()),this,SLOT(restart()));
+
+    disconnect(&setName.endw,SIGNAL(on_pushButton_2_clickeds()),this,SLOT(restartNew()));
+    connect(&setName.endw,SIGNAL(on_pushButton_2_clickeds()),this,SLOT(restartNew()));
+
+    disconnect(&setName.endw,SIGNAL(on_pushButton_3_clickeds()),this,SLOT(backToMenu()));
+    connect(&setName.endw,SIGNAL(on_pushButton_3_clickeds()),this,SLOT(backToMenu()));
+
 
     ui->le_ea_1->setText(getInfo(1,1));
     ui->le_ea_2->setText(getInfo(1,2));
@@ -111,6 +131,76 @@ void Minesweeper::updateTimeAndDisplay(){//更新时间的槽函数
     this->ui->lcdNumber->display(showStr);//用lcdNumbe展示
 }
 
+void Minesweeper::restart(){
+    loc = 2;
+    pTimer->stop();//停止计时
+    game.setBack();//先将所有的属性置为原来的然后调用绘制
+    clickTimes = 0;
+    ui->lcdNumber->display("00:00");
+    game.score = 0;
+    drawGame();
+}
+void Minesweeper::restartNew(){
+    loc = 2;
+    pTimer->stop();//停止计时
+    clickTimes = 0;//设置可以显示时间
+    game.score = 0;
+    loadGame(diff,game.size_x,game.size_y,game.totalNum);//再重新绘制本难度的地图,但是雷的数量会出问题
+}
+
+void Minesweeper::backToMenu(){
+    qDebug()<<"1";
+    ra.init();
+    qDebug()<<"2";
+    ui->le_ea_1->setText(getInfo(1,1));
+    ui->le_ea_2->setText(getInfo(1,2));
+    ui->le_ea_3->setText(getInfo(1,3));
+    ui->le_ea_4->setText(getInfo(1,4));
+    ui->le_ea_5->setText(getInfo(1,5));
+
+    ui->le_mi_1->setText(getInfo(2,1));
+    ui->le_mi_2->setText(getInfo(2,2));
+    ui->le_mi_3->setText(getInfo(2,3));
+    ui->le_mi_4->setText(getInfo(2,4));
+    ui->le_mi_5->setText(getInfo(2,5));
+    ui->le_mi_6->setText(getInfo(2,6));
+
+    ui->le_zz_1->setText(getInfo(3,1));
+    ui->le_zz_2->setText(getInfo(3,2));
+    ui->le_zz_3->setText(getInfo(3,3));
+    ui->le_zz_4->setText(getInfo(3,4));
+    ui->le_zz_5->setText(getInfo(3,5));
+    ui->le_zz_6->setText(getInfo(3,6));
+    ui->label->setVisible(1);
+    ui->le_ea_1->setVisible(1);
+    ui->le_ea_2->setVisible(1);
+    ui->le_ea_3->setVisible(1);
+    ui->le_ea_4->setVisible(1);
+    ui->le_ea_5->setVisible(1);
+    ui->le_mi_1->setVisible(1);
+    ui->le_mi_2->setVisible(1);
+    ui->le_mi_3->setVisible(1);
+    ui->le_mi_4->setVisible(1);
+    ui->le_mi_5->setVisible(1);
+    ui->le_mi_6->setVisible(1);
+    ui->le_zz_1->setVisible(1);
+    ui->le_zz_2->setVisible(1);
+    ui->le_zz_3->setVisible(1);
+    ui->le_zz_4->setVisible(1);
+    ui->le_zz_5->setVisible(1);
+    ui->le_zz_6->setVisible(1);
+    loc = 1;//返回开始界面
+    pTimer->stop();//返回以后也要停止计时
+    clickTimes = 0;
+    init();//重新绘制开始界面后面的背景
+    ui->labelMode->setVisible(0);//模式
+    ui->lcdNumber->setVisible(0);//计时器
+    pTimer->stop();//停止计时
+    ui->labelMine->setVisible(0);//雷数
+    ui->label->setVisible(1);//把label那张png设为可见的
+    //返回菜单以后还要把当前的游戏结束，界面内容全都清除，以及雷数设置为动态的
+}
+
 void Minesweeper::mousePressEvent(QMouseEvent*m)
 {
     int x=m->x();
@@ -194,36 +284,13 @@ void Minesweeper::mousePressEvent(QMouseEvent*m)
         int blockSizeY=1000/game.size_y;
         blockSizeX=blockSizeY=min(blockSizeX,blockSizeY);
         if(x>=120&&x<=373&&y>=636&&y<=761){//再玩一局
-            loc = 2;
-            pTimer->stop();//停止计时
-            clickTimes = 0;//设置可以显示时间
-            clickX = -1;
-            clickY = -1;
-            game.score = 0;
-            loadGame(diff,game.size_x,game.size_y,game.totalNum);//再重新绘制本难度的地图,但是雷的数量会出问题
+            restartNew();
         }
         else if(x>=120&&x<=373&&y>=767&&y<=909){//重玩本局
-            loc = 2;
-            pTimer->stop();//停止计时
-            game.setBack();//先将所有的属性置为原来的然后调用绘制
-            clickTimes = 0;
-            ui->lcdNumber->display("00:00");
-            clickX = -1;
-            clickY = -1;
-            game.score = 0;
-            drawGame();
+            restart();
         }
         else if(x>=1707&&x<=1862&&y>=905&&y<=1018){
-            loc = 1;//返回开始界面
-            pTimer->stop();//返回以后也要停止计时
-            clickTimes = 0;
-            init();//重新绘制开始界面后面的背景
-            ui->labelMode->setVisible(0);//模式
-            ui->lcdNumber->setVisible(0);//计时器
-            pTimer->stop();//停止计时
-            ui->labelMine->setVisible(0);//雷数
-            ui->label->setVisible(1);//把label那张png设为可见的
-            //返回菜单以后还要把当前的游戏结束，界面内容全都清除，以及雷数设置为动态的
+            backToMenu();
         }
         for (int i=0;i<game.size_x;i++){
             for (int j=0;j<game.size_y;j++){
@@ -278,7 +345,35 @@ void Minesweeper::mousePressEvent(QMouseEvent*m)
                             //ui->labelScore->setText(QString::number(game.score));//弹出界面
                         }
                     }
-                    else ui->labelScore->setText(QString("defeat"));//else 绘制界面
+                    else {//else 绘制界面
+                        if(res.level == "Easy"){
+                            score_=0;
+                            status_=-1;
+                            difficulty_=1;
+                            endw.show();
+                            endw.init();
+                            //ui->labelScore->setText(QString::number(game.score));//弹出界面
+                        }
+                        else if(res.level == "Common"){
+                            score_=0;
+                            status_=-1;
+                            difficulty_=2;
+                            endw.show();
+                            endw.init();                            //ui->labelScore->setText(QString::number(game.score));//弹出界面
+                        }
+                        else if(res.level == "Master"){
+                            score_=0;
+                            status_=-1;
+                            difficulty_=3;
+                            endw.show();
+                            endw.init();                        }
+                        else if(res.level == "Custom"){
+                            score_=0;
+                            status_=-1;
+                            difficulty_=4;
+                            endw.show();
+                            endw.init();                        }
+                    }
                 }
                 else drawGame();//若返回值为0则继续游戏
             }
@@ -321,8 +416,35 @@ void Minesweeper::mousePressEvent(QMouseEvent*m)
                             //ui->labelScore->setText(QString::number(game.score));//
                         }
                     }
-                    else ui->labelScore->setText(QString("defeat"));//绘制界面，时间停止
-                    clickTimes = 0;
+                    else {//else 绘制界面
+                        if(res.level == "Easy"){
+                            score_=0;
+                            status_=-1;
+                            difficulty_=1;
+                            endw.show();
+                            endw.init();
+                            //ui->labelScore->setText(QString::number(game.score));//弹出界面
+                        }
+                        else if(res.level == "Common"){
+                            score_=0;
+                            status_=-1;
+                            difficulty_=2;
+                            endw.show();
+                            endw.init();                            //ui->labelScore->setText(QString::number(game.score));//弹出界面
+                        }
+                        else if(res.level == "Master"){
+                            score_=0;
+                            status_=-1;
+                            difficulty_=3;
+                            endw.show();
+                            endw.init();                        }
+                        else if(res.level == "Custom"){
+                            score_=0;
+                            status_=-1;
+                            difficulty_=4;
+                            endw.show();
+                            endw.init();                        }
+                    }                    clickTimes = 0;
                 }
                 else drawGame();//若返回值为0则继续游戏
             }
@@ -365,8 +487,35 @@ void Minesweeper::mousePressEvent(QMouseEvent*m)
                             //ui->labelScore->setText(QString::number(game.score));//
                         }
                     }
-                    else ui->labelScore->setText(QString("defeat"));//绘制界面
-                    clickTimes = 0;
+                    else {//else 绘制界面
+                        if(res.level == "Easy"){
+                            score_=0;
+                            status_=-1;
+                            difficulty_=1;
+                            endw.show();
+                            endw.init();
+                            //ui->labelScore->setText(QString::number(game.score));//弹出界面
+                        }
+                        else if(res.level == "Common"){
+                            score_=0;
+                            status_=-1;
+                            difficulty_=2;
+                            endw.show();
+                            endw.init();                            //ui->labelScore->setText(QString::number(game.score));//弹出界面
+                        }
+                        else if(res.level == "Master"){
+                            score_=0;
+                            status_=-1;
+                            difficulty_=3;
+                            endw.show();
+                            endw.init();                        }
+                        else if(res.level == "Custom"){
+                            score_=0;
+                            status_=-1;
+                            difficulty_=4;
+                            endw.show();
+                            endw.init();                        }
+                    }                    clickTimes = 0;
                 }
                 else drawGame();//若返回值为0则继续游戏
             }
@@ -440,7 +589,35 @@ void Minesweeper::mouseDoubleClickEvent(QMouseEvent*m)
                         //ui->labelScore->setText(QString::number(game.score));//
                     }
                     clickTimes = 0;
-              }
+              }else {//else 绘制界面
+                    if(res.level == "Easy"){
+                        score_=0;
+                        status_=-1;
+                        difficulty_=1;
+                        endw.show();
+                        endw.init();
+                        //ui->labelScore->setText(QString::number(game.score));//弹出界面
+                    }
+                    else if(res.level == "Common"){
+                        score_=0;
+                        status_=-1;
+                        difficulty_=2;
+                        endw.show();
+                        endw.init();                            //ui->labelScore->setText(QString::number(game.score));//弹出界面
+                    }
+                    else if(res.level == "Master"){
+                        score_=0;
+                        status_=-1;
+                        difficulty_=3;
+                        endw.show();
+                        endw.init();                        }
+                    else if(res.level == "Custom"){
+                        score_=0;
+                        status_=-1;
+                        difficulty_=4;
+                        endw.show();
+                        endw.init();                        }
+                }
            }
      else drawGame();//若返回值为0则继续游戏
    }
