@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
-        <file>Custom/beijing.png</file>
-        <file>Custom/queding.png</file>
-        <file>Custom/qvxiao.png</file>
+        <file>Custom/button1.jpg</file>
+        <file>Custom/button2.jpg</file>
+        <file>Custom/custom.jpg</file>
     </qresource>
 </RCC>

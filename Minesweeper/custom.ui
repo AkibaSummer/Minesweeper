@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>690</width>
-    <height>650</height>
+    <width>685</width>
+    <height>633</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,10 +16,10 @@
   <widget class="QLineEdit" name="lineEdit1">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>136</y>
-     <width>492</width>
-     <height>71</height>
+     <x>101</x>
+     <y>135</y>
+     <width>488</width>
+     <height>63</height>
     </rect>
    </property>
    <property name="font">
@@ -27,15 +27,18 @@
      <family>黑体</family>
      <pointsize>36</pointsize>
     </font>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLineEdit" name="lineEdit2">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>271</y>
-     <width>492</width>
-     <height>71</height>
+     <x>101</x>
+     <y>270</y>
+     <width>488</width>
+     <height>63</height>
     </rect>
    </property>
    <property name="font">
@@ -43,15 +46,18 @@
      <family>黑体</family>
      <pointsize>36</pointsize>
     </font>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLineEdit" name="lineEdit3">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>416</y>
-     <width>492</width>
-     <height>71</height>
+     <x>101</x>
+     <y>415</y>
+     <width>488</width>
+     <height>63</height>
     </rect>
    </property>
    <property name="font">
@@ -59,6 +65,9 @@
      <family>黑体</family>
      <pointsize>36</pointsize>
     </font>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton1">

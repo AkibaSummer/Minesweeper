@@ -25,7 +25,7 @@ void Rule::showRule()
 {
     QPainter pen(&maptemp);
     //QImage images;
-    //images.load(":/new/images/rule.png");
+    //images.load(":/new/images/rule.jpg");
     //pen.drawImage(640,217,images);
     QPixmap pix;
     pix.load(":/images/rule.jpg");

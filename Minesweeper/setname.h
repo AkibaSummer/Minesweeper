@@ -17,6 +17,7 @@ public:
     explicit SetName(QWidget *parent = nullptr);
     ~SetName();
     TheEndWidget endw;
+    void paintEvent(QPaintEvent *event);
 private slots:
     void enterName();
 private:

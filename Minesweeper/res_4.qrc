@@ -10,7 +10,6 @@
         <file>images/0208.png</file>
         <file>images/03.png</file>
         <file>images/11.png</file>
-        <file>images/rule.png</file>
         <file>images/Start.jpg</file>
         <file>images/start.png</file>
         <file>images/U1.jpg</file>
@@ -22,5 +21,8 @@
         <file>images/rule.jpg</file>
         <file>images/defeat.jpg</file>
         <file>images/victory.jpg</file>
+        <file>images/inputName.jpg</file>
+        <file>images/inputNameButton.jpg</file>
+        <file>images/white.jpg</file>
     </qresource>
 </RCC>

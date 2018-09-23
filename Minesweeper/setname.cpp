@@ -15,6 +15,13 @@ SetName::SetName(QWidget *parent) :
 
     connect(ui->btn_enter,SIGNAL(clicked(bool)),this,SLOT(enterName()));
 }
+void SetName::paintEvent(QPaintEvent*w)
+{
+    Q_UNUSED(w);
+    QPainter pen(this);
+    QImage image(":/images/inputName.jpg");
+    pen.drawImage(0,0,image);
+}
 
 /*void SetName::mousePressEvent(QMouseEvent*m)
 {
@@ -32,6 +39,9 @@ SetName::SetName(QWidget *parent) :
 */
 void SetName::enterName(){
     name_=ui->line_name->text();
+    //QPixmap pix(&);
+    //pix.load(":/images/inputName.jpg");
+    //pix.drawPixmap(0,0,);
     endw.show();
     endw.init();
     this->close();

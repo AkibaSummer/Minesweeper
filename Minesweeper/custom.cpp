@@ -20,17 +20,16 @@ Custom::Custom(QWidget *parent) :
 }
 
 void Custom::init(){
-    images.load(":/Custom/beijing.png");
+    images.load(":/Custom/custom.jpg");
     QPainter pen(&maptemp);
-    images=images.scaled(690,650,Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
     pen.drawImage(0,0,images);//画入背景图片
 
-    QIcon queding(":/Custom/queding.png");
+    QIcon queding(":/Custom/button1.jpg");
     this->ui->pushButton1->setIcon(queding);
     this->ui->pushButton1->setIconSize(QSize(190,65));//插入确定按钮图片
     this->ui->pushButton1->setFlat(true);//使按钮透明
 
-    QIcon qvxiao(":/Custom/qvxiao.png");
+    QIcon qvxiao(":/Custom/button2.jpg");
     this->ui->pushButton2->setIcon(qvxiao);
     this->ui->pushButton2->setIconSize(QSize(190,65));//插入取消按钮图片
     this->ui->pushButton2->setFlat(true);//使按钮透明

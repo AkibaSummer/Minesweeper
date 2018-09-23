@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QTime>
+#include <QMediaPlayer>
 #include "QPainter"
 #include "QMouseEvent"
 #include "rule.h"
@@ -93,6 +94,11 @@ private slots:
     void restart();
     void restartNew();
     void backToMenu();
+    void jinrumusic();
+    void seamusic();
+    void icemusic();
+    void acgmusic();
+    void startMusic();
 
 private:
     Ui::Minesweeper *ui;
@@ -120,7 +126,7 @@ private:
         QPixmap(res.img_15),
         QPixmap(res.img_gameBack),
         QPixmap(res.img_menu),
-        QPixmap(res.img_U),
+        QPixmap(":/images/Start.jpg"),
         QPixmap(":/images/0201.png"),
         QPixmap(":/images/0202.png"),
         QPixmap(":/images/0203.png"),
@@ -137,6 +143,9 @@ private:
     int diff;
     SetName setName;
     TheEndWidget endw;
+    QMediaPlayer *player;
+    int theme;
+    QTimer *timer = new QTimer(this);
 };
 
 #endif // MAINWINDOW_H

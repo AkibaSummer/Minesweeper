@@ -194,7 +194,7 @@ MapStatus Game::doubleClick(int x, int y) {
             //如果当前被隐藏的的数量等于当前的雷数，游戏成功结束
                 return MapStatus(maps, flag?(-1+
                                              showBoom()):1);
-            else return MapStatus(maps, -flag);//若还有则继续进行
+            else return MapStatus(maps, flag?(-1+showBoom()):0);//若还有则继续进行
     }
     return MapStatus(maps,0);
 }
@@ -204,16 +204,16 @@ MapStatus Game::getMaps()& {
 }
 void Game::setBack(){
     boomNum = 0;
-    reset();
-//    for(int i=0;i<(int)maps.size();i++){
-//        for(int j=0;j<(int)maps.front().size();j++){
-//            setBit(maps[i][j],7,0);//人为改变的只有这仨属性
-//            setBit(maps[i][j],8,0);
-//            setBit(maps[i][j],9,1);//将其全部置为隐藏
-//            if(getBit(maps[i][j],5))
-//            boomNum++;
-//        }
-//    }
+//    reset();
+    for(int i=0;i<(int)maps.size();i++){
+        for(int j=0;j<(int)maps.front().size();j++){
+            setBit(maps[i][j],7,0);//人为改变的只有这仨属性
+            setBit(maps[i][j],8,0);
+            setBit(maps[i][j],9,1);//将其全部置为隐藏
+            if(getBit(maps[i][j],5))
+            boomNum++;
+        }
+    }
 }
 /*
 int main() {

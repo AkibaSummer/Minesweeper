@@ -16,7 +16,7 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>30</x>
      <y>0</y>
      <width>111</width>
      <height>51</height>
@@ -199,8 +199,14 @@
      <pointsize>14</pointsize>
     </font>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/images/white.jpg);</string>
+   </property>
    <property name="text">
     <string>重玩本局</string>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton_2">
@@ -224,8 +230,14 @@
      <pointsize>14</pointsize>
     </font>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/images/white.jpg);</string>
+   </property>
    <property name="text">
     <string>再玩一局</string>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton_3">
@@ -243,8 +255,14 @@
      <pointsize>14</pointsize>
     </font>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/images/white.jpg);</string>
+   </property>
    <property name="text">
     <string>返回菜单</string>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
    </property>
   </widget>
  </widget>

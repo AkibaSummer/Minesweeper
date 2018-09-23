@@ -6,34 +6,66 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>685</width>
+    <height>633</height>
    </rect>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>685</width>
+    <height>633</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QLineEdit" name="line_name">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>100</y>
-     <width>113</width>
-     <height>20</height>
+     <x>51</x>
+     <y>108</y>
+     <width>544</width>
+     <height>171</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>50</pointsize>
+    </font>
+   </property>
+   <property name="inputMask">
+    <string/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="maxLength">
+    <number>10</number>
+   </property>
+   <property name="echoMode">
+    <enum>QLineEdit::Normal</enum>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QPushButton" name="btn_enter">
    <property name="geometry">
     <rect>
-     <x>160</x>
-     <y>170</y>
-     <width>80</width>
-     <height>20</height>
+     <x>205</x>
+     <y>351</y>
+     <width>238</width>
+     <height>117</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/images/inputNameButton.jpg);</string>
+   </property>
    <property name="text">
-    <string>PushButton</string>
+    <string/>
    </property>
   </widget>
  </widget>
